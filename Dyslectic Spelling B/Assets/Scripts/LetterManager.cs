@@ -3,6 +3,7 @@ using UnityEngine;
 public class LetterManager : MonoBehaviour
 {
     public static char letterchoosen;
+    public GameObject[] slotList;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -13,5 +14,9 @@ public class LetterManager : MonoBehaviour
     void Update()
     {
         
+    }
+    public void CurrentSlot()
+    {
+
     }
 }
