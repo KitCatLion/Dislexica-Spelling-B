@@ -21,15 +21,7 @@ public class lettershift : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        WrongorRight();
-        if(correct == true)
-        {
 
-        }
-        else
-        {
-
-        }
     }
     //correct letter possibliy
     public void WrongorRight()
