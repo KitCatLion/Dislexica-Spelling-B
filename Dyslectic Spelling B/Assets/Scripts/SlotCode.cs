@@ -14,15 +14,16 @@ public class SlotCode : MonoBehaviour
 
     }
     public void floatLetters()
-    {
+    {/*
         if (text =! " " && gameObject.active == true)
         {
             Random random = new Random();
             int num = random.Next(0, 100);
             if (num < 20) 
             {
-                text.transform.pos
+                //text.transform.pos
             }
         }
+        */
     }
 }

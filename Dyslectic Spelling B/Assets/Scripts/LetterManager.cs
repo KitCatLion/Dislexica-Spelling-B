@@ -20,7 +20,7 @@ public class LetterManager : MonoBehaviour
         CloudUI.SetActive(false);
         Speach.SetActive(true);
         ChooseWord();
-        wordMang.wordSound.Play();
+        //wordMang.wordSound.Play();
     }
 
     // Update is called once per frame
@@ -35,20 +35,20 @@ public class LetterManager : MonoBehaviour
         int num = random.Next(0, 5);
         if (Spelled == 10)
         {
-            wordMang = 2Level.Word[num];
+            //wordMang = ;
         }
         else if(Spelled == 20)
         {
-            wordMang = 3Level.Word[num];
+            //wordMang = 3Level.Word[num];
         }
         else
         {
-            wordMang = 1Level.Word[num];
+            //wordMang = 1Level.Word[num];
         }
     }
     //Checks Word
     public void Check()
-    {
+    {/*
         CloudUI.SetActive(false);
         Speach.SetActive(true);
         if (combine == wordMang.word)
@@ -61,7 +61,7 @@ public class LetterManager : MonoBehaviour
         {
             FailedUI.SetActive(true);
         }
-
+        */
     }
     //Go to Spelling
     public void NowSpell()
@@ -72,10 +72,11 @@ public class LetterManager : MonoBehaviour
     }
     // Checks if a slot is filled
     public void CurrentSlot()
-    {
+    {/*
         for (int i = 0; i < wordMang.brokenWord.Length; i++) 
         {
             
         }
+        */
     }
 }
