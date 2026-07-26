@@ -3,8 +3,8 @@ using UnityEngine;
 public class LevelWords : ScriptableObject
 {
     [SerializeField]
-    private Object[] word;
-    public Object[] GetWord()
+    public Words[] word;
+    public Words[] GetWord()
     {
         { return word; }
     }

@@ -1,26 +1,35 @@
-using UnityEngine;
-using Random = System.Random;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using UnityEngine;
+using static UnityEditor.SceneView;
+using Random = System.Random;
 public class LetterManager : MonoBehaviour
 {
     public static char letterchoosen;
     public GameObject[] slotList;
+    public GameObject Camera;
     int Spelled = 0;
     GameObject wordMang;
-    GameObject CloudUI;
-    GameObject Speach;
-    GameObject FailedUI;
+    Words word;
+    public GameObject CloudUI;
+    public GameObject SpeachUI;
+    public GameObject FailedUI;
+    public GameObject ContinueUI;
     string combine;
+
+
+    public List<LevelWords> levelWords = new List<LevelWords>();
+    private List<UnityEngine.Object> usedWords = new List<UnityEngine.Object>();
+    public AudioSource audioSource;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         FailedUI.SetActive(false);
         CloudUI.SetActive(false);
-        Speach.SetActive(true);
+        SpeachUI.SetActive(true);
         ChooseWord();
-        //wordMang.wordSound.Play();
     }
 
     // Update is called once per frame
@@ -31,26 +40,34 @@ public class LetterManager : MonoBehaviour
     //Choose word for spelling
     private void ChooseWord()
     {
-        Random random = new Random();
-        int num = random.Next(0, 5);
-        if (Spelled == 10)
+        LevelWords currentLevelWord = levelWords[Spelled % 10];
+        //Picking new word from level
+        int newWord = UnityEngine.Random.Range(0, currentLevelWord.word.Length);
+        word = currentLevelWord.word[newWord];
+
+        if (!currentLevelWord.word.Contains(usedWords[0]))
         {
-            //wordMang = ;
+            usedWords.Clear();
         }
-        else if(Spelled == 20)
+
+        while (usedWords.Contains(word))
         {
-            //wordMang = 3Level.Word[num];
+            //Keep rolling until it doesnt contain word
+            newWord = UnityEngine.Random.Range(0, currentLevelWord.word.Length);
+            word = currentLevelWord.word[newWord];
         }
-        else
-        {
-            //wordMang = 1Level.Word[num];
-        }
+        usedWords.Add(word);
+
+        audioSource.clip = word.GetAudio();
+        audioSource.Play();
     }
     //Checks Word
     public void Check()
-    {/*
+    {
         CloudUI.SetActive(false);
-        Speach.SetActive(true);
+        SpeachUI.SetActive(true);
+        Camera.GetComponent<Animator>().Play("CameraToTeacher");
+        /*
         if (combine == wordMang.word)
         {
             Spelled++;
@@ -67,7 +84,8 @@ public class LetterManager : MonoBehaviour
     public void NowSpell()
     {
         CloudUI.SetActive(true);
-        Speach.SetActive(false);
+        SpeachUI.SetActive(false);
+        Camera.GetComponent<Animator>().Play("RCameraToTeacher");
         //Start Spawning Clouds
     }
     // Checks if a slot is filled
