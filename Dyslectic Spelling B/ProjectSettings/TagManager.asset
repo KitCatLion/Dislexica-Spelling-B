@@ -6,6 +6,7 @@ TagManager:
   tags:
   - slotText
   - Cloud
+  - Top
   layers:
   - Default
   - TransparentFX

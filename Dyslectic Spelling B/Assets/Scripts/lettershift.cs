@@ -8,20 +8,26 @@ using Random = System.Random;
 public class lettershift : MonoBehaviour
 {
     //chance rate can be changed based on how long you last and what level your on
-    List<int> wrongLetter = new List<int> { 4 };
-    List<int> correctLetter = new List<int> { 1, 2, 3 };
+    public static List<int> wrongLetter = new List<int> { 4 };
+    public static List<int> correctLetter = new List<int> { 1, 2, 3 };
     bool correct;
     public TextMeshProUGUI slotLetter;
+    int cnum;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        WrongorRight();
+        if (correct == true)
+        {
+            //the correct letter
+            slotLetter.GetComponent<TextMeshProUGUI>().text = (LetterManager.letter).ToString();
+        }
+        else
+        {
+            //incorrect letter
+            cnum = LettertoNum(LetterManager.letter);
+            slotLetter.GetComponent<TextMeshProUGUI>().text = WrongLetterPicker(cnum);
+        }
     }
     //correct letter possibliy
     public void WrongorRight()
@@ -55,6 +61,12 @@ public class lettershift : MonoBehaviour
         pickedNum = rand.Next(1, 27 - correctNum); //exlcudes the correct number in the random selection.
         pickedLetter = NumtoLetter(pickedNum); //converts the picked number to a letter
             return pickedLetter;
+    }
+    //converting letters to numbers
+    public int LettertoNum(char L)
+    {
+        char upper = char.ToUpper(L);
+        return upper - 'A' + 1;
     }
     //converting numbers to letters
     public string NumtoLetter(int Num)

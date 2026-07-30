@@ -20,7 +20,7 @@ public class SlotCode : MonoBehaviour
     }
     public void floatLetters()
     {
-
+        //transform.postion = Moveto
     }
     public void flipLetters()
     {
