@@ -11,7 +11,6 @@ public class lettershift : MonoBehaviour
     public static List<int> wrongLetter = new List<int> { 4 };
     public static List<int> correctLetter = new List<int> { 1, 2, 3 };
     bool correct;
-    public TextMeshProUGUI slotLetter;
     int cnum;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,13 +19,13 @@ public class lettershift : MonoBehaviour
         if (correct == true)
         {
             //the correct letter
-            slotLetter.GetComponent<TextMeshProUGUI>().text = (LetterManager.letter).ToString();
+            transform.GetComponent<TextMeshProUGUI>().text = (char.ToUpper(LetterManager.letter)).ToString();
         }
         else
         {
             //incorrect letter
             cnum = LettertoNum(LetterManager.letter);
-            slotLetter.GetComponent<TextMeshProUGUI>().text = WrongLetterPicker(cnum);
+            transform.GetComponent<TextMeshProUGUI>().text = WrongLetterPicker(cnum);
         }
     }
     //correct letter possibliy
@@ -37,7 +36,7 @@ public class lettershift : MonoBehaviour
         chance = random.Next(1, 5);
         foreach (int i in wrongLetter) 
         {
-            if (chance == wrongLetter[i])
+            if (chance == i)
             {
                 correct = false;
                 break;
@@ -45,7 +44,7 @@ public class lettershift : MonoBehaviour
         }
         foreach(int i in correctLetter)
         {
-            if(chance == correctLetter[i])
+            if(chance == i)
             {
                 correct = true;
                 break;

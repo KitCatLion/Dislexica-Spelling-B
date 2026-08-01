@@ -10,7 +10,7 @@ public class LetterManager : MonoBehaviour
 {
     public static char letterchoosen;
     public GameObject[] slotList;
-    private GameObject selectedSlot;
+    private static GameObject selectedSlot;
     private GameObject[] letteredSlots;
     public GameObject Camera;
     int Spelled = 0;
@@ -22,20 +22,27 @@ public class LetterManager : MonoBehaviour
     public GameObject FailedUI;
     public GameObject ContinueUI;
     string combine;
+    public TextMeshProUGUI TimerUI;
+    public GameObject Cloudpos1;
+    public GameObject Cloudpos2;
+    public GameObject Cloudpos3;
     bool TimerS;
-    int Timer;
+    int Timer = 120;
     bool spawning;
     public List<LevelWords> levelWords = new List<LevelWords>();
     private List<UnityEngine.Object> usedWords = new List<UnityEngine.Object>();
     public AudioSource audioSource;
     public static List<GameObject> Clouds = new List<GameObject>();
     public GameObject CloudPrefab;
+    public static bool choosen;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         FailedUI.SetActive(false);
         CloudUI.SetActive(false);
         SpeachUI.SetActive(true);
+        ResetSlots();
+        TimerUI.text = Timer.ToString();
         ChooseWord();
     }
 
@@ -44,13 +51,19 @@ public class LetterManager : MonoBehaviour
     {
         if (spawning == true)
         {
+            CurrentSlot();
             StartCoroutine(WaitAnime());
+        }
+        if (choosen == true)
+        {
+            CloudKill();
         }
         if (TimerS == true) 
         {
             if(Timer > 0)
             {
                 Timer -= (int)Time.deltaTime;
+                TimerUI.text = Timer.ToString();
             }
             else
             {
@@ -61,27 +74,33 @@ public class LetterManager : MonoBehaviour
     //Choose word for spelling
     private void ChooseWord()
     {
-        LevelWords currentLevelWord = levelWords[Spelled % 10];
+        LevelWords currentLevelWord = levelWords[(int)Spelled / 10];
         //Picking new word from level
         int newWord = UnityEngine.Random.Range(0, currentLevelWord.word.Length);
         word = currentLevelWord.word[newWord];
-
-        if (!currentLevelWord.word.Contains(usedWords[0]))
-        {
-            usedWords.Clear();
-        }
-
         while (usedWords.Contains(word))
         {
             //Keep rolling until it doesnt contain word
             newWord = UnityEngine.Random.Range(0, currentLevelWord.word.Length);
             word = currentLevelWord.word[newWord];
         }
-        usedWords.Add(word);
         wordletters = word.BreakingWord();
         audioSource.clip = word.GetAudio();
         audioSource.Play();
+        for (int i = 0; i < slotList.Length; i++)
+        {
+            if (i > wordletters.Length - 1)
+            {
+                slotList[i].SetActive(false);
+            }
+        }
+        usedWords.Add(word);
+        if (!currentLevelWord.word.Contains(usedWords[0]))
+        {
+            usedWords.Clear();
+        }
     }
+    #region GamePlayButtons
     //Checks Word
     public void Check()
     {
@@ -89,23 +108,13 @@ public class LetterManager : MonoBehaviour
         spawning = false;
         CloudUI.SetActive(false);
         SpeachUI.SetActive(true);
-        for (int i = 0; i < slotList.Length; i++)
-        {
-            slotList[i].SetActive(true);
-        }
+        ResetSlots();
         Camera.GetComponent<Animator>().Play("CameraToTeacher");
         if (combine == word.GetWord())
         {
             Spelled++;
             ChooseWord();
             SetTimer();
-            for (int i = 0; i < slotList.Length; i++)
-            {
-                if (i > wordletters.Length)
-                {
-                    slotList[i].SetActive(false);
-                }
-            }
         }
         else
         {
@@ -120,22 +129,30 @@ public class LetterManager : MonoBehaviour
         Camera.GetComponent<Animator>().Play("RCameraToTeacher");
         StartCoroutine(WaitAnime());
     }
+    public void ListenAgain()
+    {
+        audioSource.clip = word.GetAudio();
+        audioSource.Play();
+    }
+    #endregion
+    #region SlotCode
     // Checks if a slot is filled and gets the Letter for that slot
     public void CurrentSlot()
     {
         for (int i = 0; i < wordletters.Length; i++) 
         {
-            if (slotList[i].transform.GetComponent<TextMeshProUGUI>().text == " ")
+            if (slotList[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text == " " && slotList[i].activeInHierarchy == true)
             {
-                selectedSlot = slotList[i];
+                selectedSlot = slotList[i].transform.GetChild(1).gameObject;
                 letter = wordletters[i];
                 break;
             }
         }
     }
-    public void AddtoSlot()
+    public static void AddtoSlot(string Letter)
     {
-        selectedSlot.GetComponent<TextMeshProUGUI>().text = letterchoosen.ToString();
+        selectedSlot.GetComponent<TextMeshProUGUI>().text = Letter;
+        choosen = true;
     }
     public void Sabatoge(GameObject slot)
     {
@@ -156,23 +173,44 @@ public class LetterManager : MonoBehaviour
     {
         for (int i = 0; i < wordletters.Length; i++) 
         {
-            if (slotList[i].transform.GetComponent<TextMeshProUGUI>().text != " ")
+            if (slotList[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text != " ")
             {
-                letteredSlots[i] = slotList[i];
+                letteredSlots[i] = slotList[i].transform.GetChild(1).gameObject;
             }
         }
     }
+    public void ResetSlots()
+    {
+        for (int i = 0; i < slotList.Length; i++)
+        {
+            slotList[i].SetActive(true);
+            slotList[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = " ";
+        }
+    }
+    #endregion
     public void CloudSpawn()
     {
-        if (spawning == true) 
+        if (spawning == true && Clouds.Count == 0) 
         {
-            GameObject Cloud = Instantiate(CloudPrefab, new Vector3(463, 66, 0), Quaternion.identity);
-            GameObject Cloud2 = Instantiate(CloudPrefab, new Vector3(802.9f, 109, 0), Quaternion.identity);
-            GameObject Cloud3 = Instantiate(CloudPrefab, new Vector3(623, 25, 0), Quaternion.identity);
+            choosen = false;
+            GameObject Cloud = Instantiate(CloudPrefab);
+            GameObject Cloud2 = Instantiate(CloudPrefab);
+            GameObject Cloud3 = Instantiate(CloudPrefab);
+            Cloud.transform.SetParent(transform, false);
+            Cloud2.transform.SetParent(transform, false);
+            Cloud3.transform.SetParent(transform, false);
+            Cloud.transform.localPosition = Cloudpos1.transform.localPosition;
+            Cloud2.transform.localPosition = Cloudpos2.transform.localPosition;
+            Cloud3.transform.localPosition = Cloudpos3.transform.localPosition;
             Clouds.Add(Cloud);
             Clouds.Add(Cloud2);
             Clouds.Add(Cloud3);
         }
+    }
+    public void CloudKill()
+    {
+        Destroy(Clouds[0]);
+        Clouds.RemoveAt(0);
     }
     IEnumerator WaitAnime()
     {

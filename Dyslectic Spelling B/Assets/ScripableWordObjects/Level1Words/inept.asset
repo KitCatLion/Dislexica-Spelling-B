@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: inept
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: inept
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 89b050f765b754f409cd9b4973c098f5, type: 3}
   brokenWord: 69006e00650070007400
   pointOfOrgin: 

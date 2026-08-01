@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: corral
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: corral
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: f4bac075e01daa74c8b31e4e080e71d4, type: 3}
   brokenWord: 63006f007200720061006c00
   pointOfOrgin: 

@@ -4,32 +4,23 @@ using UnityEngine;
 
 public class ButtonCode : MonoBehaviour
 {
-    public TextMeshProUGUI letter;
-    public GameObject Cloud;
-    private string transferLetter;
-    private char justLetter;
-    bool die = false;
+    private float speed = 30f;
     public void Update()
     {
-        //transform.position = Vector3.MoveTowards();
-        if(die == true)
+        transform.Translate(0, speed * Time.deltaTime, 0, Space.World);
+        Death();
+    }
+    public void Clicking()
+    {
+        LetterManager.AddtoSlot(transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text);
+        Debug.Log(transform.GetChild(1).gameObject.name);
+    }
+    private void Death()
+    {
+        if (transform.position.y > 1000)
         {
             Destroy(LetterManager.Clouds[0]);
-        }
-    }
-    public void OnClick()
-    {
-        transferLetter = letter.text;
-        justLetter = transferLetter[0];
-        LetterManager.letterchoosen = justLetter;
-        Debug.Log("This is the Letter Choosen " + justLetter);
-        die = true;
-    }
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Top"))
-        {
-            Destroy(Cloud);
+            LetterManager.Clouds.RemoveAt(0);
         }
     }
 }

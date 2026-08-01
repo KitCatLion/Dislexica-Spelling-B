@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: frostbitten
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: frostbitten
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 281b32bae8c4d824990c99bedecc52be, type: 3}
   brokenWord: 660072006f0073007400620069007400740065006e00
   pointOfOrgin: 
