@@ -924,7 +924,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 264126680}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2091190674}
+        m_TargetAssemblyTypeName: LetterManager, Assembly-CSharp
+        m_MethodName: Retry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &264126680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2988,11 +3000,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2624976446517816103, guid: bdcc3561cd14ebf498e360c59e85228e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 831
+      value: 855
       objectReference: {fileID: 0}
     - target: {fileID: 2624976446517816103, guid: bdcc3561cd14ebf498e360c59e85228e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 27
+      value: 53
       objectReference: {fileID: 0}
     - target: {fileID: 2624976446517816103, guid: bdcc3561cd14ebf498e360c59e85228e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

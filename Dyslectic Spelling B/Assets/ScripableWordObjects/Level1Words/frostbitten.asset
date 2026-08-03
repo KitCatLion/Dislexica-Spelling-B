@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
   m_Name: frostbitten
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: frostbitten
+  word: FROSTBITTEN
   wordSound: {fileID: 8300000, guid: 281b32bae8c4d824990c99bedecc52be, type: 3}
-  brokenWord: 660072006f0073007400620069007400740065006e00
+  brokenWord: 460052004f0053005400420049005400540045004e00
   pointOfOrgin: 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ButtonCode : MonoBehaviour
 {
-    private float speed = 30f;
+    private float speed = 40f;
     public void Update()
     {
         transform.Translate(0, speed * Time.deltaTime, 0, Space.World);
@@ -13,7 +13,6 @@ public class ButtonCode : MonoBehaviour
     public void Clicking()
     {
         LetterManager.AddtoSlot(transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text);
-        Debug.Log(transform.GetChild(1).gameObject.name);
     }
     private void Death()
     {

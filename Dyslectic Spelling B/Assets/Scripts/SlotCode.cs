@@ -6,6 +6,8 @@ public class SlotCode : MonoBehaviour
 {
     TextMeshProUGUI Letter;
     private Vector3 TextStartPos;
+    private float speed = 30f;
+    public bool floating = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,11 +18,14 @@ public class SlotCode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (floating == true)
+        {
+            transform.Translate(0, speed * Time.deltaTime, 0, Space.World);
+        }
     }
     public void floatLetters()
     {
-        transform.position = new Vector3(transform.position.x, 5.0f, transform.position.z);
+        floating = true;
     }
     public void flipLetters()
     {
@@ -80,6 +85,7 @@ public class SlotCode : MonoBehaviour
         {
             Letter.text = " ";
             transform.position = TextStartPos;
+            floating = false;
         }
     }
 }

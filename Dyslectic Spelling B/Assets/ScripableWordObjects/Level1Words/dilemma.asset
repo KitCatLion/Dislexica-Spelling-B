@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
   m_Name: dilemma
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: dilemma
+  word: DILEMMA
   wordSound: {fileID: 8300000, guid: d570f1e74fde9da469d902a6e7f46747, type: 3}
-  brokenWord: 640069006c0065006d006d006100
+  brokenWord: 440049004c0045004d004d004100
   pointOfOrgin: 

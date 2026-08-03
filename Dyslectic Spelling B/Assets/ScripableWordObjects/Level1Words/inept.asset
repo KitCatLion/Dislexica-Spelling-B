@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
   m_Name: inept
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: inept
+  word: INEPT
   wordSound: {fileID: 8300000, guid: 89b050f765b754f409cd9b4973c098f5, type: 3}
-  brokenWord: 69006e00650070007400
+  brokenWord: 49004e00450050005400
   pointOfOrgin: 

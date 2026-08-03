@@ -19,7 +19,7 @@ public class lettershift : MonoBehaviour
         if (correct == true)
         {
             //the correct letter
-            transform.GetComponent<TextMeshProUGUI>().text = (char.ToUpper(LetterManager.letter)).ToString();
+            transform.GetComponent<TextMeshProUGUI>().text = (LetterManager.letter).ToString();
         }
         else
         {

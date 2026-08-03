@@ -13,7 +13,7 @@ public class LetterManager : MonoBehaviour
     private static GameObject selectedSlot;
     private GameObject[] letteredSlots;
     public GameObject Camera;
-    int Spelled = 0;
+    private int Spelled = 0;
     Words word;
     private char[] wordletters;
     public static char letter;
@@ -21,20 +21,22 @@ public class LetterManager : MonoBehaviour
     public GameObject SpeachUI;
     public GameObject FailedUI;
     public GameObject ContinueUI;
-    string combine;
+    private string combine;
     public TextMeshProUGUI TimerUI;
     public GameObject Cloudpos1;
     public GameObject Cloudpos2;
     public GameObject Cloudpos3;
-    bool TimerS;
-    int Timer = 120;
-    bool spawning;
+    private bool TimerS;
+    private float Timer = 120;
+    private bool spawning;
     public List<LevelWords> levelWords = new List<LevelWords>();
     private List<UnityEngine.Object> usedWords = new List<UnityEngine.Object>();
     public AudioSource audioSource;
     public static List<GameObject> Clouds = new List<GameObject>();
     public GameObject CloudPrefab;
     public static bool choosen;
+    private bool UI;
+    public static bool sab = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -58,12 +60,13 @@ public class LetterManager : MonoBehaviour
         {
             CloudKill();
         }
+        //SlotChooseSab();
         if (TimerS == true) 
         {
             if(Timer > 0)
             {
-                Timer -= (int)Time.deltaTime;
-                TimerUI.text = Timer.ToString();
+                Timer -= Time.deltaTime;
+                TimerUI.text = Mathf.CeilToInt(Timer).ToString();
             }
             else
             {
@@ -104,35 +107,66 @@ public class LetterManager : MonoBehaviour
     //Checks Word
     public void Check()
     {
+        CombineSlots();
         TimerS = false;
-        spawning = false;
+        spawning = false; 
         CloudUI.SetActive(false);
-        SpeachUI.SetActive(true);
+        CloudKill();
+        CloudKill();
+        CloudKill();
+        UI = true;
         ResetSlots();
         Camera.GetComponent<Animator>().Play("CameraToTeacher");
+        StartCoroutine(WaitBack());
+        Debug.Log("Spelled: " + combine + " Correct:" + word.GetWord());
         if (combine == word.GetWord())
         {
             Spelled++;
             ChooseWord();
             SetTimer();
+            combine = "";
         }
         else
         {
             FailedUI.SetActive(true);
+            Spelled = 0;
+            usedWords.Clear();
+            combine = "";
         }
     }
     //Go to Spelling
     public void NowSpell()
     {
-        CloudUI.SetActive(true);
+        spawning = true;
+        UI = false;
         SpeachUI.SetActive(false);
         Camera.GetComponent<Animator>().Play("RCameraToTeacher");
+        StartCoroutine(WaitBack());
         StartCoroutine(WaitAnime());
     }
     public void ListenAgain()
     {
         audioSource.clip = word.GetAudio();
         audioSource.Play();
+    }
+    public void Retry()
+    {
+        FailedUI.SetActive(false);
+        ContinueUI.SetActive(true);
+        ResetSlots();
+        ChooseWord();
+    }
+    IEnumerator WaitBack()
+    {
+        yield return new WaitForSeconds(1);
+        if (UI == true)
+        {
+            SpeachUI.SetActive(true);
+        }
+        else
+        {
+            CloudUI.SetActive(true);
+        }
     }
     #endregion
     #region SlotCode
@@ -153,20 +187,37 @@ public class LetterManager : MonoBehaviour
     {
         selectedSlot.GetComponent<TextMeshProUGUI>().text = Letter;
         choosen = true;
+        sab = true;
+    }
+    public void SlotChooseSab()
+    {
+        if (sab == true)
+        {
+            Debug.Log("Sabatoge " + sab);
+            int chance;
+            Random random = new Random();
+            chance = random.Next(0, wordletters.Length);
+            Debug.Log(chance);
+            if (slotList[chance].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text != " ")
+            {
+                Sabatoge(slotList[chance]);
+            }
+            sab = false;
+        }
     }
     public void Sabatoge(GameObject slot)
     {
         if (Spelled <= 10)
         {
-            slot.GetComponent<SlotCode>().floatLetters();
+            slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().floatLetters();
         }
         else if (Spelled > 10 && Spelled <= 20) 
         {
-            slot.GetComponent<SlotCode>().flipLetters();
+            slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
         }
         else
         {
-            slot.GetComponent<SlotCode>().dispearLetters();
+            slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().dispearLetters();
         }
     }
     public void ChooseSlot()
@@ -187,7 +238,15 @@ public class LetterManager : MonoBehaviour
             slotList[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = " ";
         }
     }
+    private void CombineSlots()
+    {
+        for (int i = 0; i < wordletters.Length; i++)
+        {
+            combine += slotList[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text;
+        }
+    }
     #endregion
+    #region Clouds
     public void CloudSpawn()
     {
         if (spawning == true && Clouds.Count == 0) 
@@ -215,10 +274,10 @@ public class LetterManager : MonoBehaviour
     IEnumerator WaitAnime()
     {
         yield return new WaitForSeconds(1);
-        spawning = true;
         CloudSpawn();
         TimerS = true;
     }
+    #endregion
     private void SetTimer()
     {
         if (Spelled <= 10)

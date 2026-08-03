@@ -23,6 +23,7 @@ public class Dragable : MonoBehaviour
         {
             isDragged = true;
             TextStartPos = transform.position;
+
         }
 
         if (isDragged)
@@ -33,6 +34,7 @@ public class Dragable : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && isDragged)
         {
             isDragged = false;
+            transform.GetComponent<SlotCode>().floating = false;
             transform.position = TextStartPos;
         }
     }

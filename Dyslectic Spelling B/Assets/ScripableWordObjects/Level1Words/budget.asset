@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
   m_Name: budget
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: budget
+  word: BUDGET
   wordSound: {fileID: 8300000, guid: 9edebe8eedc24b240aa061dc88996220, type: 3}
-  brokenWord: 620075006400670065007400
+  brokenWord: 420055004400470045005400
   pointOfOrgin: 
