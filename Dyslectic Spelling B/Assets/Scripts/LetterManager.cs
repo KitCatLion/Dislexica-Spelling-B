@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using static UnityEditor.SceneView;
 using Random = System.Random;
+using UnityEngine.SceneManagement;
 public class LetterManager : MonoBehaviour
 {
     public static char letterchoosen;
@@ -149,12 +150,23 @@ public class LetterManager : MonoBehaviour
         audioSource.clip = word.GetAudio();
         audioSource.Play();
     }
+    //try again
     public void Retry()
     {
         FailedUI.SetActive(false);
         ContinueUI.SetActive(true);
         ResetSlots();
         ChooseWord();
+    }
+    //back to menu
+    public void BacktoMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+    //Quit game
+    public void Quiting()
+    {
+        Application.Quit();
     }
     IEnumerator WaitBack()
     {

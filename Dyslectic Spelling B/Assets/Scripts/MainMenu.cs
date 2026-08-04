@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public GameObject cameraMove;
@@ -17,16 +17,28 @@ public class MainMenu : MonoBehaviour
     {
         
     }
+    //go to settings
     public void SettingsMenu()
     {
         cameraMove.GetComponent<Animator>().Play("SettingsCameraMovement");
         titlegp.SetActive(false);
         settinggp.SetActive(true);
     }
+    //go to menu
     public void BackSettingsMenu()
     {
         cameraMove.GetComponent<Animator>().Play("RSettingsCameraMovement");
         titlegp.SetActive(true);
         settinggp.SetActive(false);
+    }
+    //start game
+    public void BeginMenu()
+    {
+        SceneManager.LoadScene(1);
+    }
+    //quit game
+    public void QuitMenu()
+    {
+        Application.Quit();
     }
 }
