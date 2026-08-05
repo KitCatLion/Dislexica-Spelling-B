@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
   m_Name: haphazard
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: haphazard
+  word: HAPHAZARD
   wordSound: {fileID: 0}
-  brokenWord: 680061007000680061007a00610072006400
+  brokenWord: 480041005000480041005a00410052004400
   pointOfOrgin: 

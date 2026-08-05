@@ -7,7 +7,7 @@ public class Dragable : MonoBehaviour
     private Vector3 TextStartPos;
 
     private bool touchingMouse;
-
+    public GameObject SlotTtext;
     private void Update()
     {
         if ((Input.mousePosition - transform.position).magnitude < 20)
@@ -35,7 +35,8 @@ public class Dragable : MonoBehaviour
         {
             isDragged = false;
             transform.GetComponent<SlotCode>().floating = false;
-            transform.position = TextStartPos;
+            transform.position = transform.GetComponent<SlotCode>().TextPos;
+            SlotTtext.SetActive(false);
         }
     }
 

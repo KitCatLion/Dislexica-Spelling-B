@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
   m_Name: lieutenant
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: lieutenant
+  word: LIEUTENANT
   wordSound: {fileID: 0}
-  brokenWord: 6c00690065007500740065006e0061006e007400
+  brokenWord: 4c00490045005500540045004e0041004e005400
   pointOfOrgin: 

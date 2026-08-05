@@ -22,6 +22,10 @@ public class LetterManager : MonoBehaviour
     public GameObject SpeachUI;
     public GameObject FailedUI;
     public GameObject ContinueUI;
+    public GameObject WinUI;
+    public GameObject SlotTtext;
+    public GameObject SpellTtext;
+    public GameObject CloudTtext;
     private string combine;
     public TextMeshProUGUI TimerUI;
     public GameObject Cloudpos1;
@@ -38,12 +42,17 @@ public class LetterManager : MonoBehaviour
     public static bool choosen;
     private bool UI;
     public static bool sab = false;
+    private bool tutoral = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SlotTtext.SetActive(false);
+        SpellTtext.SetActive(false);
+        CloudTtext.SetActive(false);
         FailedUI.SetActive(false);
         CloudUI.SetActive(false);
         SpeachUI.SetActive(true);
+        WinUI.SetActive(false);
         ResetSlots();
         TimerUI.text = Timer.ToString();
         ChooseWord();
@@ -54,17 +63,21 @@ public class LetterManager : MonoBehaviour
     {
         if (spawning == true)
         {
-            CurrentSlot();
             StartCoroutine(WaitAnime());
         }
-        if (choosen == true)
+        if (choosen == true) // deletes clouds when player chooses them
         {
+            SpellTtext.SetActive(false);
+            CloudTtext.SetActive(false);
+            CloudKill();
+            CloudKill();
             CloudKill();
         }
-        //SlotChooseSab();
+        SlotChooseSab();
         if (TimerS == true) 
         {
-            if(Timer > 0)
+            TempStop();
+            if (Timer > 0)
             {
                 Timer -= Time.deltaTime;
                 TimerUI.text = Mathf.CeilToInt(Timer).ToString();
@@ -108,31 +121,67 @@ public class LetterManager : MonoBehaviour
     //Checks Word
     public void Check()
     {
-        CombineSlots();
-        TimerS = false;
-        spawning = false; 
-        CloudUI.SetActive(false);
-        CloudKill();
-        CloudKill();
-        CloudKill();
-        UI = true;
-        ResetSlots();
-        Camera.GetComponent<Animator>().Play("CameraToTeacher");
-        StartCoroutine(WaitBack());
-        Debug.Log("Spelled: " + combine + " Correct:" + word.GetWord());
-        if (combine == word.GetWord())
+        if (Spelled < 30)
         {
-            Spelled++;
-            ChooseWord();
-            SetTimer();
-            combine = "";
+            if (tutoral == true && Spelled == 0)
+            {
+                SpellTtext.SetActive(true);
+                CloudTtext.SetActive(true);
+            }
+            CombineSlots();
+            TimerS = false;
+            spawning = false;
+            CloudUI.SetActive(false);
+            CloudKill();
+            CloudKill();
+            CloudKill();
+            UI = true;
+            ResetSlots();
+            Camera.GetComponent<Animator>().Play("CameraToTeacher");
+            StartCoroutine(WaitBack());
+            if (combine == word.GetWord())
+            {
+                Spelled++;
+                ChooseWord();
+                SetTimer();
+                combine = "";
+            }
+            else
+            {
+                FailedUI.SetActive(true);
+                SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "You misspelled " + word.GetWord();
+                Spelled = 0;
+                usedWords.Clear();
+                combine = "";
+            }
         }
         else
         {
-            FailedUI.SetActive(true);
-            Spelled = 0;
-            usedWords.Clear();
-            combine = "";
+            CombineSlots();
+            TimerS = false;
+            spawning = false;
+            CloudUI.SetActive(false);
+            CloudKill();
+            CloudKill();
+            CloudKill();
+            UI = true;
+            ResetSlots();
+            Camera.GetComponent<Animator>().Play("CameraToTeacher");
+            StartCoroutine(WaitBack());
+            if (combine == word.GetWord())
+            {
+                Spelled++;
+                WinUI.SetActive(true);
+                SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "You Win with the final word " + word.GetWord();
+            }
+            else
+            {
+                FailedUI.SetActive(true);
+                SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "You misspelled " + word.GetWord();
+                Spelled = 0;
+                usedWords.Clear();
+                combine = "";
+            }
         }
     }
     //Go to Spelling
@@ -168,6 +217,7 @@ public class LetterManager : MonoBehaviour
     {
         Application.Quit();
     }
+    //Waits for animtion to play before turning on
     IEnumerator WaitBack()
     {
         yield return new WaitForSeconds(1);
@@ -198,18 +248,17 @@ public class LetterManager : MonoBehaviour
     public static void AddtoSlot(string Letter)
     {
         selectedSlot.GetComponent<TextMeshProUGUI>().text = Letter;
-        choosen = true;
-        sab = true;
+        choosen = true; // deletes clouds
+        sab = true; // gives chance to sabatoge
     }
+    //Has a chance to pick a slot to sabatoge
     public void SlotChooseSab()
     {
         if (sab == true)
         {
-            Debug.Log("Sabatoge " + sab);
             int chance;
             Random random = new Random();
             chance = random.Next(0, wordletters.Length);
-            Debug.Log(chance);
             if (slotList[chance].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text != " ")
             {
                 Sabatoge(slotList[chance]);
@@ -217,21 +266,39 @@ public class LetterManager : MonoBehaviour
             sab = false;
         }
     }
+    // Uses different sabatogues based on how many words are Spelled
     public void Sabatoge(GameObject slot)
     {
         if (Spelled <= 10)
         {
             slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().floatLetters();
+            if(tutoral == true)
+            {
+                SlotTtext.SetActive(true);
+                SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the floating letter back down!";
+            }
         }
         else if (Spelled > 10 && Spelled <= 20) 
         {
             slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+            if (tutoral == true)
+            {
+                SlotTtext.SetActive(true);
+                SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
+            }
         }
         else
         {
             slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().dispearLetters();
+            if (tutoral == true)
+            {
+                SlotTtext.SetActive(true);
+                SlotTtext.GetComponent<TextMeshProUGUI>().text = "Be on the look out for diseparing letters! Nothing can stop them!";
+                tutoral = false;
+            }
         }
     }
+    //choose the frist blank slot
     public void ChooseSlot()
     {
         for (int i = 0; i < wordletters.Length; i++) 
@@ -242,6 +309,7 @@ public class LetterManager : MonoBehaviour
             }
         }
     }
+    //clears the slots and sets them all to active for the next round
     public void ResetSlots()
     {
         for (int i = 0; i < slotList.Length; i++)
@@ -250,6 +318,7 @@ public class LetterManager : MonoBehaviour
             slotList[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = " ";
         }
     }
+    //Used for combining all Letters of slots into one word
     private void CombineSlots()
     {
         for (int i = 0; i < wordletters.Length; i++)
@@ -264,6 +333,7 @@ public class LetterManager : MonoBehaviour
         if (spawning == true && Clouds.Count == 0) 
         {
             choosen = false;
+            CurrentSlot();//called to inform what letter clouds need to be spawning and what slot it's connected to
             GameObject Cloud = Instantiate(CloudPrefab);
             GameObject Cloud2 = Instantiate(CloudPrefab);
             GameObject Cloud3 = Instantiate(CloudPrefab);
@@ -278,10 +348,35 @@ public class LetterManager : MonoBehaviour
             Clouds.Add(Cloud3);
         }
     }
+    private void TempStop()
+    {
+        int slotnum = 0;
+        for (int i = 0; i < wordletters.Length; i++)
+        {
+            if (slotList[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text != " " && slotList[i].activeInHierarchy == true)
+            {
+                slotnum++;
+            }
+        }
+        if (slotnum == wordletters.Length)
+        {
+            choosen = true;
+            spawning = false;
+        }
+        else
+        {
+            choosen = false;
+            spawning = true;
+        }
+    }
     public void CloudKill()
     {
-        Destroy(Clouds[0]);
-        Clouds.RemoveAt(0);
+        Debug.Log(Clouds.Count);
+        if(Clouds.Count != 0)
+        {
+            Destroy(Clouds[0]);
+            Clouds.RemoveAt(0);
+        }
     }
     IEnumerator WaitAnime()
     {
@@ -299,10 +394,12 @@ public class LetterManager : MonoBehaviour
         else if (Spelled > 10 && Spelled <= 20)
         {
             Timer = 90;
+            tutoral = true;
         }
         else if (Spelled > 20)
         {
             Timer = 60;
+            tutoral = true;
         }
     }
 }

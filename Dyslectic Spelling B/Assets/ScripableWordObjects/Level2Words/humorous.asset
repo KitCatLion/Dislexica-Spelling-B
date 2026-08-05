@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
-  m_Name: mythological
+  m_Name: humorous
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: mythological
+  word: HUMOROUS
   wordSound: {fileID: 0}
-  brokenWord: 6d007900740068006f006c006f0067006900630061006c00
+  brokenWord: 480055004d004f0052004f0055005300
   pointOfOrgin: 

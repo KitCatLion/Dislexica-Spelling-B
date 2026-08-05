@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
   m_Name: susceptible
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: susceptible
+  word: SUSCEPTIBLE
   wordSound: {fileID: 0}
-  brokenWord: 7300750073006300650070007400690062006c006500
+  brokenWord: 5300550053004300450050005400490042004c004500
   pointOfOrgin: 

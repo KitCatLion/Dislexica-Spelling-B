@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
   m_Name: calamity
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: calamity
+  word: CALAMITY
   wordSound: {fileID: 0}
-  brokenWord: 630061006c0061006d00690074007900
+  brokenWord: 430041004c0041004d00490054005900
   pointOfOrgin: 

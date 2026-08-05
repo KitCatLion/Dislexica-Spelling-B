@@ -5,13 +5,13 @@ using UnityEngine;
 public class SlotCode : MonoBehaviour
 {
     TextMeshProUGUI Letter;
-    private Vector3 TextStartPos;
+    public Vector3 TextPos;
     private float speed = 30f;
     public bool floating = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        TextStartPos = transform.position;
+        TextPos = transform.position;
         Letter = transform.GetComponent<TextMeshProUGUI>();
     }
 
@@ -84,7 +84,7 @@ public class SlotCode : MonoBehaviour
         if (collision.CompareTag("Cloud"))
         {
             Letter.text = " ";
-            transform.position = TextStartPos;
+            transform.position = TextPos;
             floating = false;
         }
     }

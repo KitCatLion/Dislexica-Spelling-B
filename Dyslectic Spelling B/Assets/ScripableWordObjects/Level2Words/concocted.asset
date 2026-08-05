@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
   m_Name: concocted
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: concocted
+  word: CONCOCTED
   wordSound: {fileID: 0}
-  brokenWord: 63006f006e0063006f006300740065006400
+  brokenWord: 43004f004e0043004f004300540045004400
   pointOfOrgin: 

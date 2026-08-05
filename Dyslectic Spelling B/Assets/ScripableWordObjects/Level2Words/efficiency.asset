@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
   m_Name: efficiency
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: efficiency
+  word: EFFICIENCY
   wordSound: {fileID: 0}
-  brokenWord: 65006600660069006300690065006e0063007900
+  brokenWord: 45004600460049004300490045004e0043005900
   pointOfOrgin: 
