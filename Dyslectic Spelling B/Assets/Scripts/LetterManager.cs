@@ -4,7 +4,6 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.SceneView;
 using Random = System.Random;
 using UnityEngine.SceneManagement;
 public class LetterManager : MonoBehaviour

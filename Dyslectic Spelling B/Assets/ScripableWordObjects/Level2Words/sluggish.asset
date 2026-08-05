@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: sluggish
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: SLUGGISH
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 62e24a67fef4485488f84a4fe72da951, type: 3}
   brokenWord: 53004c00550047004700490053004800
   pointOfOrgin: 

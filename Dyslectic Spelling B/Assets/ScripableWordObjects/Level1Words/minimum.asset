@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: minimum
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: MINIMUM
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 15b12f2d388754541a5446fa48721d14, type: 3}
   brokenWord: 4d0049004e0049004d0055004d00
   pointOfOrgin: 

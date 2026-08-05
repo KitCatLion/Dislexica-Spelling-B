@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: piccolo
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: PICCOLO
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 9aa288640ef3e9c439007f1e1987f0de, type: 3}
   brokenWord: 50004900430043004f004c004f00
   pointOfOrgin: 

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: susceptible
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: SUSCEPTIBLE
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 9671ad5b62739d2499f14ec453b2cccb, type: 3}
   brokenWord: 5300550053004300450050005400490042004c004500
   pointOfOrgin: 

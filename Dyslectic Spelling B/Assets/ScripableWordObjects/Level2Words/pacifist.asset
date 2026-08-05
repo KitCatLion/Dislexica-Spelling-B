@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: pacifist
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: PACIFIST
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 5c96ccb0c1017b64eb11e49e48a5a42f, type: 3}
   brokenWord: 50004100430049004600490053005400
   pointOfOrgin: 

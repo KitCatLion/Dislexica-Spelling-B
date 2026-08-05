@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: lieutenant
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: LIEUTENANT
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 27fb5f67caecacd4c8463380dc643d75, type: 3}
   brokenWord: 4c00490045005500540045004e0041004e005400
   pointOfOrgin: 

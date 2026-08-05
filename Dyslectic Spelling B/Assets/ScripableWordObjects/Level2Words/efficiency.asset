@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: efficiency
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: EFFICIENCY
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: b24f282dc099de54ba8425ada24535aa, type: 3}
   brokenWord: 45004600460049004300490045004e0043005900
   pointOfOrgin: 

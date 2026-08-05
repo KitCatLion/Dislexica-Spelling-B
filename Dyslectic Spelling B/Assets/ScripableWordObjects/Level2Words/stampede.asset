@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: stampede
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: STAMPEDE
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 7a35acd2beeaa43428623e9a20786f3b, type: 3}
   brokenWord: 5300540041004d005000450044004500
   pointOfOrgin: 

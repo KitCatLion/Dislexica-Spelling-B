@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: refuge
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: REFUGE
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: d2c82d9cab912bd46b22e3378e05f6ac, type: 3}
   brokenWord: 520045004600550047004500
   pointOfOrgin: 

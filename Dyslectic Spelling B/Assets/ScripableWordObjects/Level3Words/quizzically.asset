@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: quizzically
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: QUIZZICALLY
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: a226fbb715316ad40af00c48958eb5e0, type: 3}
   brokenWord: 5100550049005a005a004900430041004c004c005900
   pointOfOrgin: 

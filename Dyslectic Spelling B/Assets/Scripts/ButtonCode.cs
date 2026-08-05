@@ -16,7 +16,7 @@ public class ButtonCode : MonoBehaviour
     }
     private void Death()
     {
-        if (transform.position.y > 1000)
+        if (transform.position.y > 2000)
         {
             Destroy(LetterManager.Clouds[0]);
             LetterManager.Clouds.RemoveAt(0);

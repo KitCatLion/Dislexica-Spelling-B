@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: concocted
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: CONCOCTED
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 3def554f258c59742a93c71a379cf7de, type: 3}
   brokenWord: 43004f004e0043004f004300540045004400
   pointOfOrgin: 

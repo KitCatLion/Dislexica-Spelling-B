@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: stalemate
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: STALEMATE
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 6eb40c803ee61e24caa10bbd7c0ef499, type: 3}
   brokenWord: 5300540041004c0045004d00410054004500
   pointOfOrgin: 

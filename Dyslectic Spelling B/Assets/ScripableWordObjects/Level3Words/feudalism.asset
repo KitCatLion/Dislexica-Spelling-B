@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: feudalism
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: FEUDALISM
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 7515f54358acde74f939f5a58563b80e, type: 3}
   brokenWord: 460045005500440041004c00490053004d00
   pointOfOrgin: 

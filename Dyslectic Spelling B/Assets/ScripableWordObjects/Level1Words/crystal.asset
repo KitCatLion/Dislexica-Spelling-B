@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: crystal
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: CRYSTAL
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: f8b726f34dd33dd4194b332b69251949, type: 3}
   brokenWord: 4300520059005300540041004c00
   pointOfOrgin: 

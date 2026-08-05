@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: calamity
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: CALAMITY
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: 381c4a4ae8a27b748bca31f12810dd46, type: 3}
   brokenWord: 430041004c0041004d00490054005900
   pointOfOrgin: 
