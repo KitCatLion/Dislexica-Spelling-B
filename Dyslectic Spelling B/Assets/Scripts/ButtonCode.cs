@@ -8,7 +8,6 @@ public class ButtonCode : MonoBehaviour
     public void Update()
     {
         transform.Translate(0, speed * Time.deltaTime, 0, Space.World);
-        Death();
     }
     public void Clicking()
     {
@@ -16,10 +15,14 @@ public class ButtonCode : MonoBehaviour
     }
     private void Death()
     {
-        if (transform.position.y > 2000)
+        LetterManager.Clouds.RemoveAt(0);
+        Destroy(gameObject);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Cloud"))
         {
-            Destroy(LetterManager.Clouds[0]);
-            LetterManager.Clouds.RemoveAt(0);
+            Death();
         }
     }
 }

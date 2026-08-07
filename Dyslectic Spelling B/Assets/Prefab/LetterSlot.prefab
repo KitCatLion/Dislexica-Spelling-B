@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337f216b06b759849863fd2683faa138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dragable
+  SlotTtext: {fileID: 0}
 --- !u!61 &3895132716688915040
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -238,6 +239,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab821a1020c1384c8c2516abe96144c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotCode
+  TextPos: {x: 0, y: 0, z: 0}
+  floating: 0
 --- !u!1 &3050884140001716787
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +253,7 @@ GameObject:
   - component: {fileID: 6950516326404764297}
   - component: {fileID: 8072694366079478875}
   - component: {fileID: 1100037549918620105}
+  - component: {fileID: 8171815490812085283}
   m_Layer: 5
   m_Name: LetterCloud1 (12)
   m_TagString: Untagged
@@ -360,6 +364,28 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &8171815490812085283
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3050884140001716787}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e661c276f403b9a40b99299026d06cd6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5557589365822977694
 GameObject:
   m_ObjectHideFlags: 0
