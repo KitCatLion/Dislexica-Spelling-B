@@ -380,6 +380,10 @@ public class LetterManager : MonoBehaviour
                 SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the floating letter back down!";
             }
         }
+        else if(Spelled > 20  && Spelled <= 30)
+        {
+
+        }
         else
         {
             slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().dispearLetters();
@@ -440,6 +444,9 @@ public class LetterManager : MonoBehaviour
             Clouds.Add(Cloud);
             Clouds.Add(Cloud2);
             Clouds.Add(Cloud3);
+            Clouds[0].GetComponent<ButtonCode>().Blur();
+            Clouds[1].GetComponent<ButtonCode>().Blur();
+            Clouds[2].GetComponent<ButtonCode>().Blur();
         }
     }
     private void TempStop()

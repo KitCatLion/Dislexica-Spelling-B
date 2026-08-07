@@ -25,4 +25,8 @@ public class ButtonCode : MonoBehaviour
             Death();
         }
     }
+    public void Blur()
+    {
+        transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0, 40);
+    }
 }
