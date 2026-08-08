@@ -15,4 +15,4 @@ MonoBehaviour:
   word: NECESSARILY
   wordSound: {fileID: 8300000, guid: 18fd0d806ff4b2e4bb9d873c22b67dd6, type: 3}
   brokenWord: 4e00450043004500530053004100520049004c005900
-  pointOfOrgin: 
+  pointOfOrgin: Something you must have or do because it is required.

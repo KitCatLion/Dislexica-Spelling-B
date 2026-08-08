@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: numerous
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: NUMEROUS
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: cab6924fbd11b7048b078acc2f90ecf5, type: 3}
   brokenWord: 4e0055004d00450052004f0055005300
   pointOfOrgin: 

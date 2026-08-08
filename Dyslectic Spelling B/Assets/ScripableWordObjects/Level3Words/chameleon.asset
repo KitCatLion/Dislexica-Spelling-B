@@ -15,4 +15,4 @@ MonoBehaviour:
   word: CHAMELEON
   wordSound: {fileID: 8300000, guid: 6dfb8ad6d135882408bb989c639ff6fe, type: 3}
   brokenWord: 4300480041004d0045004c0045004f004e00
-  pointOfOrgin: 
+  pointOfOrgin: A type of lizard known for changing it's color.

@@ -15,4 +15,4 @@ MonoBehaviour:
   word: DEPTH
   wordSound: {fileID: 8300000, guid: 8793e50a89ed2dc49980176b716c64ce, type: 3}
   brokenWord: 44004500500054004800
-  pointOfOrgin: 
+  pointOfOrgin: 'The distance from the top down to the bottom '

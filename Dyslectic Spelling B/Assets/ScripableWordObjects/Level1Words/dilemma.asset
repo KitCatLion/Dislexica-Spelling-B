@@ -15,4 +15,5 @@ MonoBehaviour:
   word: DILEMMA
   wordSound: {fileID: 8300000, guid: d570f1e74fde9da469d902a6e7f46747, type: 3}
   brokenWord: 440049004c0045004d004d004100
-  pointOfOrgin: 
+  pointOfOrgin: A tough situation where you must make a choice between two or more
+    options

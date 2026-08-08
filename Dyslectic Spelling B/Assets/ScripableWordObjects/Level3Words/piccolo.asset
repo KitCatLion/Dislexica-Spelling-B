@@ -15,4 +15,5 @@ MonoBehaviour:
   word: PICCOLO
   wordSound: {fileID: 8300000, guid: 9aa288640ef3e9c439007f1e1987f0de, type: 3}
   brokenWord: 50004900430043004f004c004f00
-  pointOfOrgin: 
+  pointOfOrgin: Refers to a high pitched woodwind instrument that is half the size
+    of a flute.

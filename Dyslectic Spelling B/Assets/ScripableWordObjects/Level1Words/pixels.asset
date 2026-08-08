@@ -15,4 +15,4 @@ MonoBehaviour:
   word: PIXELS
   wordSound: {fileID: 8300000, guid: 3961e706cfe3f554abf513dc77402971, type: 3}
   brokenWord: 50004900580045004c005300
-  pointOfOrgin: 
+  pointOfOrgin: Is the smallest single point that makes up a digital image on screen.

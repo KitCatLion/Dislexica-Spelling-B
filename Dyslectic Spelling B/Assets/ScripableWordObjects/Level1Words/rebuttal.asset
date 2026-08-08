@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
-  m_Name: vagabonds
+  m_Name: rebuttal
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: VAGABOND
-  wordSound: {fileID: 8300000, guid: 0b9487658a4b7ac4180a2deaf984d204, type: 3}
-  brokenWord: 560041004700410042004f004e004400
+  word: REBUTTAL
+  wordSound: {fileID: 8300000, guid: 356ca8ef5fd47ee4e9ec320648aa693d, type: 3}
+  brokenWord: 52004500420055005400540041004c00
   pointOfOrgin: 

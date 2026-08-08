@@ -15,4 +15,5 @@ MonoBehaviour:
   word: STALEMATE
   wordSound: {fileID: 8300000, guid: 6eb40c803ee61e24caa10bbd7c0ef499, type: 3}
   brokenWord: 5300540041004c0045004d00410054004500
-  pointOfOrgin: 
+  pointOfOrgin: A situation where a contest becomes so that neither side can win
+    or make a move.

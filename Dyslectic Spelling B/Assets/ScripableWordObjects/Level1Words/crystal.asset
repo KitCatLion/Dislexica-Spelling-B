@@ -15,4 +15,4 @@ MonoBehaviour:
   word: CRYSTAL
   wordSound: {fileID: 8300000, guid: f8b726f34dd33dd4194b332b69251949, type: 3}
   brokenWord: 4300520059005300540041004c00
-  pointOfOrgin: 
+  pointOfOrgin: A soild material whose atoms are arranged in a repeating pattern.
