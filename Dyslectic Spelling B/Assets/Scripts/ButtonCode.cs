@@ -27,6 +27,6 @@ public class ButtonCode : MonoBehaviour
     }
     public void Blur()
     {
-        transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = new Color(0f,0f,0f, 100f);
+        transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = new Color(0f,0f,0f, 0.25f);
     }
 }
