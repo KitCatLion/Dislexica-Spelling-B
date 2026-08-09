@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: success
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: SUCCESS
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: fde6a9fbe9ca8814f9b605a22ff4a20e, type: 3}
   brokenWord: 5300550043004300450053005300
   pointOfOrgin: 

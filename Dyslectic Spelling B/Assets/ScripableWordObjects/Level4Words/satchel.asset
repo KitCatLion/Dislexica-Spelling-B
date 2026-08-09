@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: satchel
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: SATCHEL
-  wordSound: {fileID: 0}
+  wordSound: {fileID: 8300000, guid: baa4ca8c461607441bda3df08acecf44, type: 3}
   brokenWord: 5300410054004300480045004c00
   pointOfOrgin: 
