@@ -95,6 +95,7 @@ public class LetterManager : MonoBehaviour
                 Check();
             }
         }
+        Tutorial(tutoralA);
     }
     //Choose word for spelling
     private void ChooseWord()
@@ -404,11 +405,8 @@ public class LetterManager : MonoBehaviour
             Clouds.Add(Cloud);
             Clouds.Add(Cloud2);
             Clouds.Add(Cloud3);
-            if (Clouds.Count != 0)
-            {
-                Clouds[0].GetComponent<ButtonCode>().Blur();
-                Debug.Log("Should be Bluring");
-            }
+            Clouds[0].GetComponent<ButtonCode>().Blur();
+            Debug.Log("Should be Bluring");
             if (Spelled > 20 && Spelled <= 30)
             {
                 if (Clouds.Count != 0)
@@ -455,7 +453,6 @@ public class LetterManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         CloudSpawn();
         TimerS = true;
-        Tutorial(tutoralA);
     }
     #endregion
     private void SetTimer()
@@ -477,6 +474,7 @@ public class LetterManager : MonoBehaviour
             Timer = 60;
         }
     }
+    #region Tutorial
     private void ReadSave()
     {
         if (File.Exists(filePath))
@@ -511,41 +509,36 @@ public class LetterManager : MonoBehaviour
     }
     private void Tutorial(int play)
     {
-        if (play == 1 && choosen == false)
+        Debug.Log(spawning + ", " + play);
+        if (play == 1 && Spelled == 0)
         {
             CloudTtext.SetActive(true);
+            
         }
-        else
-        {
-            CloudTtext.SetActive(false);
-        }
-        if (play == 1 && spawning == false)
+        else if (play == 1 && spawning == false && Spelled == 0)
         {
             CheckTtext.SetActive(true);
+            CloudTtext.SetActive(false);
             tutoralA = 0;
         }
-        else
-        {
-            CheckTtext.SetActive(false);
-        }
-        if (play == 1 && Spelled <= 10)
+        else if (play == 1 && Spelled == 0 && sab == true)
         {
             SlotTtext.SetActive(true);
             SlotTtext.GetComponent<TextMeshProUGUI>().text = "Watch out for flipped letters. Drag the flipped letter out of the cloud!";
         }
-        else if (play == 1 && Spelled <= 20)
+        else if (play == 1 && Spelled == 10)
         {
             SlotTtext.SetActive(true);
             SlotTtext.GetComponent<TextMeshProUGUI>().text = "Watch out for floating letters. Drag the floating letter back down!";
             tutoralB = 0;
         }
-        else if (play == 1 && Spelled <= 30)
+        else if (play == 1 && Spelled == 20)
         {
             CloudTtext.SetActive(true);
-            CloudTtext.GetComponent<TextMeshProUGUI>().text = "Some letter will not be fully clear when in their clouds. So be careful with what letter you pick!";
+            CloudTtext.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "Some letter will not be fully clear when in their clouds. So be careful with what letter you pick!";
             tutoralC = 0;
         }
-        else if (play == 1 && Spelled <= 40)
+        else if (play == 1 && Spelled == 30)
         {
             SlotTtext.SetActive(true);
             SlotTtext.GetComponent<TextMeshProUGUI>().text = "Be on the look out for diseparing letters! Nothing can stop them!";
@@ -553,7 +546,10 @@ public class LetterManager : MonoBehaviour
         }
         else
         {
+            CloudTtext.SetActive(false);
             SlotTtext.SetActive(false);
+            CheckTtext.SetActive(false);
         }
     }
+    #endregion
 }
