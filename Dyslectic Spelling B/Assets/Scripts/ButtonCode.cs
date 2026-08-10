@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ButtonCode : MonoBehaviour
 {
-    private float speed = 40f;
+    private float speed = 55f;
     public void Update()
     {
         transform.Translate(0, speed * Time.deltaTime, 0, Space.World);

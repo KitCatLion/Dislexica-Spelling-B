@@ -140,11 +140,12 @@ public class LetterManager : MonoBehaviour
         Camera.GetComponent<Animator>().Play("CameraToTeacher");
         StartCoroutine(WaitBack());
         UI = true;
-        if (UI == true) // deletes clouds when UI is switch
+        if (UI == true && Clouds.Count != 0) // deletes clouds when UI is switch
         {
             Clouds[0].SetActive(false);
             Clouds[1].SetActive(false);
             Clouds[2].SetActive(false);
+            Clouds.Clear();
         }
         if (combine == word.GetWord())
         {
@@ -157,6 +158,10 @@ public class LetterManager : MonoBehaviour
             }
             else
             {
+                ChooseWord();
+                SetTimer();
+                combine = "";
+                BDefine();
                 if (Spelled == 1)
                 {
                     startTutA = 0;
@@ -175,10 +180,6 @@ public class LetterManager : MonoBehaviour
                 {
                     tutoralD = 0;
                 }
-                ChooseWord();
-                SetTimer();
-                combine = "";
-                BDefine();
             }
         }
         else
@@ -291,80 +292,86 @@ public class LetterManager : MonoBehaviour
     // Uses different sabatogues based on how many words are Spelled
     public void Sabatoge(GameObject slot)
     {
-        if (Spelled <= 10)
+        int chance;
+        Random random = new Random();
+        chance = random.Next(0, 5);
+        if (chance == 2)
         {
-            TutorialSab(tutoralA);
-            switch (slot.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text)
+            if (Spelled <= 10)
             {
-                case "W":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "M":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "P":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "B":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "U":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "V":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "T":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "I":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "O":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "Q":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "F":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "E":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "Z":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
-                case "S":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    break;
+                TutorialSab(tutoralA);
+                switch (slot.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text)
+                {
+                    case "W":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "M":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "P":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "B":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "U":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "V":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "T":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "I":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "O":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "Q":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "F":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "E":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "Z":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "S":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                }
             }
-        }
-        else if (Spelled > 10 && Spelled <= 20) 
-        {
-            slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().floatLetters();
-            slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-            TutorialSab(tutoralB);
-        }
-        else if (Spelled > 30 && Spelled <= 40)
-        {
-            slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().dispearLetters();
-            slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-            TutorialSab(tutoralD);
+            else if (Spelled > 10 && Spelled <= 20)
+            {
+                slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().floatLetters();
+                slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                TutorialSab(tutoralB);
+            }
+            else if (Spelled > 30 && Spelled <= 40)
+            {
+                slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().dispearLetters();
+                slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                TutorialSab(tutoralD);
+            }
         }
     }
     //choose the frist blank slot
