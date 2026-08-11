@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class ButtonCode : MonoBehaviour
 {
-    private float speed = 55f;
+    public static float speed = 55f;
     public void Update()
     {
         transform.Translate(0, speed * Time.deltaTime, 0, Space.World);
+        if (LetterManager.UI == true)// fail safe incase there are still clouds during speaking
+        {
+            if (LetterManager.Clouds.Count != 0)
+            {
+                LetterManager.spawning = false;
+                Death();
+            }
+            Destroy(gameObject);
+        }
     }
     public void Clicking()
     {

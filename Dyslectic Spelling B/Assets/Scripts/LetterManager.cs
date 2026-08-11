@@ -8,6 +8,7 @@ using Random = System.Random;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
+using Unity.VisualScripting;
 public class LetterManager : MonoBehaviour
 {
     public static char letterchoosen;
@@ -35,7 +36,7 @@ public class LetterManager : MonoBehaviour
     public GameObject Cloudpos3;
     private bool TimerS;
     private float Timer = 120;
-    private bool spawning;
+    public static bool spawning;
     public List<LevelWords> levelWords = new List<LevelWords>();
     private List<UnityEngine.Object> usedWords = new List<UnityEngine.Object>();
     public AudioSource audioSource;
@@ -140,13 +141,6 @@ public class LetterManager : MonoBehaviour
         Camera.GetComponent<Animator>().Play("CameraToTeacher");
         StartCoroutine(WaitBack());
         UI = true;
-        if (UI == true && Clouds.Count != 0) // deletes clouds when UI is switch
-        {
-            Clouds[0].SetActive(false);
-            Clouds[1].SetActive(false);
-            Clouds[2].SetActive(false);
-            Clouds.Clear();
-        }
         if (combine == word.GetWord())
         {
             Spelled++;
@@ -171,14 +165,17 @@ public class LetterManager : MonoBehaviour
                 else if (Spelled == 11)
                 {
                     tutoralB = 0;
+                    ButtonCode.speed = 70f;
                 }
                 else if (Spelled == 21)
                 {
                     tutoralC = 0;
+                    ButtonCode.speed = 90f;
                 }
                 else if (Spelled == 31)
                 {
                     tutoralD = 0;
+                    ButtonCode.speed = 100f;
                 }
             }
         }
@@ -189,6 +186,7 @@ public class LetterManager : MonoBehaviour
             SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "You misspelled " + word.GetWord() + " You got " + Spelled + " correct!";
             usedWords.Clear();
             combine = "";
+            ButtonCode.speed = 55f;
             UpdateSave();
         }
     }
@@ -197,6 +195,7 @@ public class LetterManager : MonoBehaviour
     {
         spawning = true;
         UI = false;
+        ButtonCode.speed = 55f;
         SpeachUI.SetActive(false);
         Camera.GetComponent<Animator>().Play("RCameraToTeacher");
         StartCoroutine(WaitBack());
@@ -294,10 +293,10 @@ public class LetterManager : MonoBehaviour
     {
         int chance;
         Random random = new Random();
-        chance = random.Next(0, 5);
-        if (chance == 2)
+        chance = random.Next(0, 10);
+        if (Spelled <= 10)
         {
-            if (Spelled <= 10)
+            if (chance == 2 || chance == 3 || chance == 4)
             {
                 TutorialSab(tutoralA);
                 switch (slot.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text)
@@ -360,13 +359,19 @@ public class LetterManager : MonoBehaviour
                         break;
                 }
             }
-            else if (Spelled > 10 && Spelled <= 20)
+        }
+        else if (Spelled > 10 && Spelled <= 20)
+        {
+            if (chance == 2 || chance == 4 || chance == 3 || chance == 0)
             {
                 slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().floatLetters();
                 slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
                 TutorialSab(tutoralB);
             }
-            else if (Spelled > 30 && Spelled <= 40)
+        }
+        else if (Spelled > 30 && Spelled <= 40)
+        {
+            if (chance == 2 || chance == 4 || chance == 3 || chance == 0 || chance == 1)
             {
                 slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().dispearLetters();
                 slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
@@ -444,7 +449,7 @@ public class LetterManager : MonoBehaviour
                 slotnum++;
             }
         }
-        if (slotnum == wordletters.Length)
+        if (slotnum == wordletters.Length || UI == true)
         {
             choosen = true;
             spawning = false;
