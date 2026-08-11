@@ -5,6 +5,7 @@ public class MainMenu : MonoBehaviour
     public GameObject cameraMove;
     public GameObject titlegp;
     public GameObject settinggp;
+    public GameObject creditgp;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,6 +31,18 @@ public class MainMenu : MonoBehaviour
         cameraMove.GetComponent<Animator>().Play("RSettingsCameraMovement");
         titlegp.SetActive(true);
         settinggp.SetActive(false);
+    }
+    public void CreditMenu()
+    {
+        cameraMove.GetComponent<Animator>().Play("CreditsCameraMovement");
+        titlegp.SetActive(false);
+        creditgp.SetActive(true);
+    }
+    public void BackCreditMenu()
+    {
+        cameraMove.GetComponent<Animator>().Play("RCreditsCameraMovement");
+        titlegp.SetActive(true);
+        creditgp.SetActive(false);
     }
     //start game
     public void BeginMenu()
