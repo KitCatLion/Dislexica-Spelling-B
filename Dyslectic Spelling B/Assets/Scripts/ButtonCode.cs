@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -31,11 +32,22 @@ public class ButtonCode : MonoBehaviour
     {
         if (collision.CompareTag("Cloud"))
         {
-            Death();
+            StartCoroutine(Animtion());
         }
     }
     public void Blur()
     {
         transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = new Color(0f,0f,0f, 0.25f);
+    }
+    public void Deathref()
+    {
+        StartCoroutine(Animtion());
+    }
+    IEnumerator Animtion()
+    {
+        transform.GetChild(0).gameObject.GetComponent<Animator>().Play("CloudPop");
+        transform.GetChild(1).gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        Death();
     }
 }
