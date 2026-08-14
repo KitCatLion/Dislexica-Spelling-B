@@ -15,4 +15,4 @@ MonoBehaviour:
   word: CORRAL
   wordSound: {fileID: 8300000, guid: f4bac075e01daa74c8b31e4e080e71d4, type: 3}
   brokenWord: 43004f005200520041004c00
-  pointOfOrgin: 
+  pointOfOrgin: A fenced pen used to hold livestock.

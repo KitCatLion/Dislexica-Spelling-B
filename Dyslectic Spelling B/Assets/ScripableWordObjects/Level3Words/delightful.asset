@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: delightful
   m_EditorClassIdentifier: Assembly-CSharp::Words
   word: DELIGHTFUL
-  wordSound: {fileID: 8300000, guid: 81c54be94b7f04c4faf8485f8f7fc77c, type: 3}
+  wordSound: {fileID: 8300000, guid: 661bf9cd70585794b854cedbeed67593, type: 3}
   brokenWord: 440045004c004900470048005400460055004c00
-  pointOfOrgin: 
+  pointOfOrgin: Is an adjective that means very pleseant.

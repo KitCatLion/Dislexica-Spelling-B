@@ -7,6 +7,8 @@ using UnityEngine;
 using Random = System.Random;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
+using Unity.VisualScripting;
 public class LetterManager : MonoBehaviour
 {
     public static char letterchoosen;
@@ -21,10 +23,12 @@ public class LetterManager : MonoBehaviour
     public GameObject CloudUI;
     public GameObject SpeachUI;
     public GameObject FailedUI;
+    public GameObject BackUI;
     public GameObject ContinueUI;
     public GameObject WinUI;
     public GameObject SlotTtext;
     public GameObject CloudTtext;
+    public GameObject CheckTtext;
     private string combine;
     public TextMeshProUGUI TimerUI;
     public GameObject Cloudpos1;
@@ -32,16 +36,25 @@ public class LetterManager : MonoBehaviour
     public GameObject Cloudpos3;
     private bool TimerS;
     private float Timer = 120;
-    private bool spawning;
+    public static bool spawning;
     public List<LevelWords> levelWords = new List<LevelWords>();
     private List<UnityEngine.Object> usedWords = new List<UnityEngine.Object>();
     public AudioSource audioSource;
     public static List<GameObject> Clouds = new List<GameObject>();
     public GameObject CloudPrefab;
     public static bool choosen;
-    private bool UI;
+    public static bool UI;
     public static bool sab = false;
     private bool tutoral = true;
+    private string filePath = "Assets\\MainSave.txt";
+    private string[] saveLines;
+    private int finished;
+    private int tutoralA;
+    private int tutoralB;
+    private int tutoralC;
+    private int tutoralD;
+    private int startTutA;
+    private int startTutB;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -54,18 +67,14 @@ public class LetterManager : MonoBehaviour
         ResetSlots();
         TimerUI.text = Timer.ToString();
         ChooseWord();
+        ReadSave();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (spawning == true)
-        {
-            StartCoroutine(WaitAnime());
-        }
         if (choosen == true) // deletes clouds when player chooses them
         {
-            CloudTtext.SetActive(false);
             CloudKill();
             CloudKill();
             CloudKill();
@@ -74,8 +83,14 @@ public class LetterManager : MonoBehaviour
         if (TimerS == true) 
         {
             TempStop();
+            if (spawning == true)
+            {
+                StartCoroutine(WaitAnime());
+            }
             if (Timer > 0)
             {
+                Tutorial(startTutA);
+                Tutorial(startTutB);
                 Timer -= Time.deltaTime;
                 TimerUI.text = Mathf.CeilToInt(Timer).ToString();
             }
@@ -122,35 +137,57 @@ public class LetterManager : MonoBehaviour
         TimerS = false;
         spawning = false;
         CloudUI.SetActive(false);
-        CloudKill();
-        CloudKill();
-        CloudKill();
-        UI = true;
         ResetSlots();
         Camera.GetComponent<Animator>().Play("CameraToTeacher");
         StartCoroutine(WaitBack());
+        UI = true;
         if (combine == word.GetWord())
         {
             Spelled++;
-            if (Spelled == 30)
+            if (Spelled == 40)
             {
                 WinUI.SetActive(true);
                 SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "You Win with the final word " + word.GetWord();
+                UpdateSave();
             }
             else
             {
                 ChooseWord();
                 SetTimer();
                 combine = "";
+                BDefine();
+                if (Spelled == 1)
+                {
+                    startTutA = 0;
+                    startTutB = 0;
+                    tutoralA = 0;
+                }
+                else if (Spelled == 11)
+                {
+                    tutoralB = 0;
+                    ButtonCode.speed = 70f;
+                }
+                else if (Spelled == 21)
+                {
+                    tutoralC = 0;
+                    ButtonCode.speed = 90f;
+                }
+                else if (Spelled == 31)
+                {
+                    tutoralD = 0;
+                    ButtonCode.speed = 100f;
+                }
             }
         }
         else
         {
             FailedUI.SetActive(true);
-            SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "You misspelled " + word.GetWord();
-            Spelled = 0;
+            ContinueUI.SetActive(false);
+            SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "You misspelled " + word.GetWord() + " You got " + Spelled + " correct!";
             usedWords.Clear();
             combine = "";
+            ButtonCode.speed = 55f;
+            UpdateSave();
         }
     }
     //Go to Spelling
@@ -158,6 +195,7 @@ public class LetterManager : MonoBehaviour
     {
         spawning = true;
         UI = false;
+        ButtonCode.speed = 55f;
         SpeachUI.SetActive(false);
         Camera.GetComponent<Animator>().Play("RCameraToTeacher");
         StartCoroutine(WaitBack());
@@ -168,11 +206,26 @@ public class LetterManager : MonoBehaviour
         audioSource.clip = word.GetAudio();
         audioSource.Play();
     }
+    public void Define()
+    {
+        SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = word.Origin();
+        ContinueUI.SetActive(false);
+        BackUI.SetActive(true);
+    }
+    public void BDefine()
+    {
+        SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "Your word is  ";
+        ContinueUI.SetActive(true);
+        BackUI.SetActive(false);
+    }
     //try again
     public void Retry()
     {
         FailedUI.SetActive(false);
         ContinueUI.SetActive(true);
+        Spelled = 0;
+        BDefine();
+        SetTimer();
         ResetSlots();
         ChooseWord();
     }
@@ -238,161 +291,91 @@ public class LetterManager : MonoBehaviour
     // Uses different sabatogues based on how many words are Spelled
     public void Sabatoge(GameObject slot)
     {
+        int chance;
+        Random random = new Random();
+        chance = random.Next(0, 10);
         if (Spelled <= 10)
         {
-            switch (slot.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text)
+            if (chance == 2 || chance == 3 || chance == 4)
             {
-                case "W":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "M":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "P":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "B":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "U":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "V":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "T":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "I":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "O":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "Q":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "F":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "E":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "Z":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
-                case "S":
-                    slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
-                    slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-                    if (tutoral == true)
-                    {
-                        SlotTtext.SetActive(true);
-                        SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the flipped letter out of the cloud!";
-                    }
-                    break;
+                TutorialSab(tutoralA);
+                switch (slot.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text)
+                {
+                    case "W":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "M":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "P":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "B":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "U":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "V":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "T":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "I":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "O":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "Q":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "F":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "E":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "Z":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                    case "S":
+                        slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().flipLetters();
+                        slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                        break;
+                }
             }
         }
-        else if (Spelled > 10 && Spelled <= 20) 
+        else if (Spelled > 10 && Spelled <= 20)
         {
-            slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().floatLetters();
-            slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-            if (tutoral == true)
+            if (chance == 2 || chance == 4 || chance == 3 || chance == 0)
             {
-                SlotTtext.SetActive(true);
-                SlotTtext.GetComponent<TextMeshProUGUI>().text = "Quick! Drag the floating letter back down!";
+                slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().floatLetters();
+                slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                TutorialSab(tutoralB);
             }
         }
-        else if(Spelled > 20  && Spelled <= 30)
+        else if (Spelled > 30 && Spelled <= 40)
         {
-
-        }
-        else
-        {
-            slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().dispearLetters();
-            slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
-            if (tutoral == true)
+            if (chance == 2 || chance == 4 || chance == 3 || chance == 0 || chance == 1)
             {
-                SlotTtext.SetActive(true);
-                SlotTtext.GetComponent<TextMeshProUGUI>().text = "Be on the look out for diseparing letters! Nothing can stop them!";
-                tutoral = false;
+                slot.transform.GetChild(1).gameObject.GetComponent<SlotCode>().dispearLetters();
+                slot.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("BadBlink");
+                TutorialSab(tutoralD);
             }
         }
     }
@@ -444,9 +427,16 @@ public class LetterManager : MonoBehaviour
             Clouds.Add(Cloud);
             Clouds.Add(Cloud2);
             Clouds.Add(Cloud3);
-            Clouds[0].GetComponent<ButtonCode>().Blur();
-            Clouds[1].GetComponent<ButtonCode>().Blur();
-            Clouds[2].GetComponent<ButtonCode>().Blur();
+            if (Spelled > 20 && Spelled <= 30)
+            {
+                if (Clouds.Count != 0)
+                {
+                    Clouds[0].GetComponent<ButtonCode>().Blur();
+                    Clouds[1].GetComponent<ButtonCode>().Blur();
+                    Clouds[2].GetComponent<ButtonCode>().Blur();
+                    Tutorial(tutoralC);
+                }
+            }
         }
     }
     private void TempStop()
@@ -459,7 +449,7 @@ public class LetterManager : MonoBehaviour
                 slotnum++;
             }
         }
-        if (slotnum == wordletters.Length)
+        if (slotnum == wordletters.Length || UI == true)
         {
             choosen = true;
             spawning = false;
@@ -493,13 +483,93 @@ public class LetterManager : MonoBehaviour
         }
         else if (Spelled > 10 && Spelled <= 20)
         {
-            Timer = 90;
-            tutoral = true;
+            Timer = 100;
         }
-        else if (Spelled > 20)
+        else if (Spelled > 20 && Spelled <= 30)
+        {
+            Timer = 80;
+        }
+        else
         {
             Timer = 60;
-            tutoral = true;
         }
     }
+    #region Tutorial
+    private void ReadSave()
+    {
+        if (File.Exists(filePath))
+        {
+            saveLines = File.ReadAllLines(filePath);
+            finished = Convert.ToInt32(saveLines[0]);
+            tutoralA = Convert.ToInt32(saveLines[1]);
+            tutoralB = Convert.ToInt32(saveLines[2]);
+            tutoralC = Convert.ToInt32(saveLines[3]);
+            tutoralD = Convert.ToInt32(saveLines[4]);
+            startTutA = Convert.ToInt32(saveLines[5]);
+            startTutB = Convert.ToInt32(saveLines[6]);
+        }
+    }
+    private void UpdateSave()
+    {
+        if (File.Exists(filePath))
+        {
+            saveLines[0] = (finished).ToString();
+            saveLines[1] = (tutoralA).ToString();
+            saveLines[2] = (tutoralB).ToString();
+            saveLines[3] = (tutoralC).ToString();
+            saveLines[4] = (tutoralD).ToString();
+            saveLines[5] = (startTutA).ToString();
+            saveLines[6] = (startTutB).ToString();
+            File.WriteAllLines(filePath, saveLines);
+        }
+    }
+    private void Tutorial(int play)
+    {
+        if (play == 1 && Spelled == 0 && startTutA == 0)
+        {
+            CheckTtext.SetActive(true);
+            CloudTtext.SetActive(false);
+        }
+        else if (play == 1 && Spelled == 0 && startTutA == 1)
+        {
+            CloudTtext.SetActive(true);
+        }
+        else
+        {
+            CheckTtext.SetActive(false);
+        }
+    }
+    private void TutorialSab(int play)
+    {
+        if (play == 1 && Spelled == 0)
+        {
+            SlotTtext.SetActive(true);
+            SlotTtext.GetComponent<TextMeshProUGUI>().text = "Watch out for flipped letters. Drag the flipped letter out of the cloud!";
+            startTutA = 0;
+        }
+        else if (play == 1 && Spelled == 10)
+        {
+            SlotTtext.SetActive(true);
+            SlotTtext.GetComponent<TextMeshProUGUI>().text = "Watch out for floating letters. Drag the floating letter back down!";
+            tutoralB = 0;
+        }
+        else if (play == 1 && Spelled == 20)
+        {
+            CloudTtext.SetActive(true);
+            CloudTtext.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "Some letter will not be fully clear when in their clouds. So be careful with what letter you pick!";
+            tutoralC = 0;
+        }
+        else if (play == 1 && Spelled == 30)
+        {
+            SlotTtext.SetActive(true);
+            SlotTtext.GetComponent<TextMeshProUGUI>().text = "Be on the look out for diseparing letters! Nothing can stop them!";
+            tutoralD = 0;
+        }
+        else
+        {
+            SlotTtext.SetActive(false);
+            CloudTtext.SetActive(false);
+        }
+    }
+    #endregion
 }

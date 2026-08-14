@@ -1,13 +1,23 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class ButtonCode : MonoBehaviour
 {
-    private float speed = 40f;
+    public static float speed = 55f;
     public void Update()
     {
         transform.Translate(0, speed * Time.deltaTime, 0, Space.World);
+        if (LetterManager.UI == true)// fail safe incase there are still clouds during speaking
+        {
+            if (LetterManager.Clouds.Count != 0)
+            {
+                LetterManager.spawning = false;
+                Death();
+            }
+            Destroy(gameObject);
+        }
     }
     public void Clicking()
     {
@@ -22,11 +32,22 @@ public class ButtonCode : MonoBehaviour
     {
         if (collision.CompareTag("Cloud"))
         {
-            Death();
+            StartCoroutine(Animtion());
         }
     }
     public void Blur()
     {
-        transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0, 40);
+        transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().color = new Color(0f,0f,0f, 0.25f);
+    }
+    public void Deathref()
+    {
+        StartCoroutine(Animtion());
+    }
+    IEnumerator Animtion()
+    {
+        transform.GetChild(0).gameObject.GetComponent<Animator>().Play("CloudPop");
+        transform.GetChild(1).gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        Death();
     }
 }

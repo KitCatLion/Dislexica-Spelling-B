@@ -15,4 +15,4 @@ MonoBehaviour:
   word: ENTIRE
   wordSound: {fileID: 8300000, guid: 42667cd36ef93da439c2297c3aa3f3e7, type: 3}
   brokenWord: 45004e005400490052004500
-  pointOfOrgin: 
+  pointOfOrgin: Whole, complete, or nothing left out.

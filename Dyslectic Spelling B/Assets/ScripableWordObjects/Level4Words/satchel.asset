@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c3cbaa58b7074644973774b19e5ef68, type: 3}
-  m_Name: vagabonds
+  m_Name: satchel
   m_EditorClassIdentifier: Assembly-CSharp::Words
-  word: VAGABOND
-  wordSound: {fileID: 8300000, guid: 0b9487658a4b7ac4180a2deaf984d204, type: 3}
-  brokenWord: 560041004700410042004f004e004400
+  word: SATCHEL
+  wordSound: {fileID: 8300000, guid: baa4ca8c461607441bda3df08acecf44, type: 3}
+  brokenWord: 5300410054004300480045004c00
   pointOfOrgin: 
