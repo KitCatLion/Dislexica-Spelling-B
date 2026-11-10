@@ -46,7 +46,7 @@ public class LetterManager : MonoBehaviour
     public static bool UI;
     public static bool sab = false;
     private bool tutoral = true;
-    private string filePath = "Assets\\MainSave.txt";
+    private string filePath = Application.dataPath + "\\MainSave.txt";
     private string[] saveLines;
     private int finished;
     private int tutoralA;
