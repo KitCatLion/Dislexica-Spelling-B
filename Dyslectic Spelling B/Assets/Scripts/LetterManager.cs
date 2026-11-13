@@ -45,7 +45,6 @@ public class LetterManager : MonoBehaviour
     public static bool choosen;
     public static bool UI;
     public static bool sab = false;
-    private bool tutoral = true;
     private string filePath = Application.dataPath + "\\MainSave.txt";
     private string[] saveLines;
     private int finished;
@@ -55,6 +54,7 @@ public class LetterManager : MonoBehaviour
     private int tutoralD;
     private int startTutA;
     private int startTutB;
+    private string SpeakUIText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -68,6 +68,7 @@ public class LetterManager : MonoBehaviour
         TimerUI.text = Timer.ToString();
         ChooseWord();
         ReadSave();
+        SpeakUIText = SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text;
     }
 
     // Update is called once per frame
@@ -147,7 +148,7 @@ public class LetterManager : MonoBehaviour
             if (Spelled == 40)
             {
                 WinUI.SetActive(true);
-                SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "You Win with the final word " + word.GetWord();
+                SpeakUIText = "You Win with the final word " + word.GetWord();
                 UpdateSave();
             }
             else
@@ -183,7 +184,7 @@ public class LetterManager : MonoBehaviour
         {
             FailedUI.SetActive(true);
             ContinueUI.SetActive(false);
-            SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "You misspelled " + word.GetWord() + " You got " + Spelled + " correct!";
+            SpeakUIText = "You misspelled " + word.GetWord() + " You got " + Spelled + " correct!";
             usedWords.Clear();
             combine = "";
             ButtonCode.speed = 55f;
@@ -208,13 +209,13 @@ public class LetterManager : MonoBehaviour
     }
     public void Define()
     {
-        SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = word.Origin();
+        SpeakUIText = word.Origin();
         ContinueUI.SetActive(false);
         BackUI.SetActive(true);
     }
     public void BDefine()
     {
-        SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "Your word is  ";
+        SpeakUIText = "Your word is  ";
         ContinueUI.SetActive(true);
         BackUI.SetActive(false);
     }
