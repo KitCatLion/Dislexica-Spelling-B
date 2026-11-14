@@ -55,6 +55,7 @@ public class LetterManager : MonoBehaviour
     private int startTutA;
     private int startTutB;
     private string SpeakUIText;
+    private Animator CamAnimte;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -69,6 +70,7 @@ public class LetterManager : MonoBehaviour
         ChooseWord();
         ReadSave();
         SpeakUIText = SpeachUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text;
+        CamAnimte = Camera.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -139,7 +141,7 @@ public class LetterManager : MonoBehaviour
         spawning = false;
         CloudUI.SetActive(false);
         ResetSlots();
-        Camera.GetComponent<Animator>().Play("CameraToTeacher");
+        CamAnimte.Play("CameraToTeacher");
         StartCoroutine(WaitBack());
         UI = true;
         if (combine == word.GetWord())
@@ -198,7 +200,7 @@ public class LetterManager : MonoBehaviour
         UI = false;
         ButtonCode.speed = 55f;
         SpeachUI.SetActive(false);
-        Camera.GetComponent<Animator>().Play("RCameraToTeacher");
+        CamAnimte.Play("RCameraToTeacher");
         StartCoroutine(WaitBack());
         StartCoroutine(WaitAnime());
     }
